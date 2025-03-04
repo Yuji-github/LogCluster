@@ -56,12 +56,12 @@ def clustering(line: np.ndarray, rate: float, num_cluster: int, cluster: str) ->
             clustering = DBSCAN(eps=0.5, n_jobs=-1).fit_predict(data)
         elif cluster.lower() == "hdbscan":
             clustering = HDBSCAN(algorithm="best", metric="euclidean").fit_predict(
-                np.asarray(data, dtype=np.float)
+                np.asarray(data, dtype=np.float64)
             )
         elif cluster.lower() == "mean-shift":
             bandwidth = estimate_bandwidth(data)
             clustering = MeanShift(bandwidth=bandwidth).fit_predict(
-                np.asarray(data, dtype=np.float)
+                np.asarray(data, dtype=np.float64)
             )
         elif cluster.lower() == "affinity-propagation":
             clustering = AffinityPropagation(
@@ -70,7 +70,7 @@ def clustering(line: np.ndarray, rate: float, num_cluster: int, cluster: str) ->
         else:
             print(f"Unknown Cluster: Using HDBSCAN instead of {cluster}")
             clustering = HDBSCAN(algorithm="best", metric="euclidean").fit_predict(
-                np.asarray(data, dtype=np.float)
+                np.asarray(data, dtype=np.float64)
             )
 
         # counting by cluster groups
