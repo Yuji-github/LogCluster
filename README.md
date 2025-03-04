@@ -185,10 +185,10 @@ the best with HDBSCAN on almost all datasets.
 <p align="center">
 <img src="./src/parser_result.png">
 </p>
-LogCC vary when different log parsers are used. Some log parsers cannot work on a few datasets due to the time-consuming matching process. 
+LogCluster vary when different log parsers are used. Some log parsers cannot work on a few datasets due to the time-consuming matching process. 
 For example, Spell and SHISO cannot finish compression within 30 hours on four and six datasets, respectively. 
-The experimental results confirm that LogCC performs best with Drain. 
-It achieves 1.07× to 7.33× compression rates with Drain compared to other log parsers (i.e., Spell, AEL, and SHISO).
+The experimental results confirm that LogCluster performs best. 
+It achieves 1.07× to 7.33× compression rates compared to other log parsers (i.e., Spell, AEL, and SHISO).
 
 [Spell](https://www.cs.utah.edu/~lifeifei/papers/spell.pdf), [AEL](http://www.cse.yorku.ca/~zmjiang/publications/jsme2008.pdf), [SHISO](https://ieeexplore.ieee.org/document/6649746)
 
