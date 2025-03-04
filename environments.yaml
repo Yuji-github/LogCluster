@@ -1,0 +1,14 @@
+name: log_cluster
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python>=3.9
+  - hdbscan>=0.8.28
+  - numpy>=1.21
+  - pandarallel>=1.6.1
+  - pandas>=1.2.3
+  - py7zr>=0.18.3
+  - scikit-learn>=1.1.2
+  - sentence-transformers>=2.2.2
+  - tqdm>=4.54.1
