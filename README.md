@@ -3,14 +3,14 @@
 Clustering Base Log Compression. 
 
 ## 1. Dependency
-- python==3.9.0
+- python 3.9+
 - py7zr
 - HDBSCAN 
 - sentence-transformers  
 
 ### Install:
 ```shell
-pip install -r requirements.txt
+conda env create -f environments.yaml 
 ```
 
 ## 2. Usage
@@ -39,7 +39,7 @@ python main_compress.py -I Windows.log -HL 3
 python main_compress.py -I Zookeeper.log -R 0.07 -HL 4 -TSR "\d{2}\:\d{2}\:\d{2}\,\d{3}"  
 ```
 
-For the more details of parameters, please run:
+For more details of parameters, please run:
 ```shell
 python main_compress.py --help
 ```
@@ -50,7 +50,7 @@ Recommend applying DBSCAN if the dataset is over 100MB
 python main_compress.py -I Android.log -HL 5 -TSR "\d{2}\:\d{2}\:\d{2}\.\d{3}" -C  DBSCAN
 ```
 
-For the more details of parameters, please run:
+For more details of parameters, please run:
 ```shell
 python main_compress.py --help
 ```
@@ -61,18 +61,13 @@ Example: Assume outputs file is generated
 python main_decompress.py -T outputs/Android/template -H outputs/Android/head
 ```
 
-For the more details of parameters, please run:
+For more details of parameters, please run:
 ```shell
 python main_decompress.py --help
 ```
 
-[//]: # (*Assume header and content folders exist &#40;LogCluster creates those folders during the compressing.&#41; )
-
-[//]: # (*DBSCAN also the same.)
-
-
 ### Lossless Check
-Example: Assume outputs file is in outputs folder
+Example: Assume output file is in output folder
 ```shell
 pip install cdifflib
 python lossless_check.py -O ./Android.log -D ./outputs/output.log
@@ -95,7 +90,7 @@ We observe that our proposed arrect-delta encoding method obtains six times fewe
 <img src="./src/architecture.png" alt="LogCluster Architecture" title="LogCluster Architecture">
 </p>
 
-Given raw log messages, LogCluster separates them into headers, including timestamps and string variables, and content. LogCluster, in particular headers, uses the arrect-delta encoding method for the numerical variables, including timestamps, and applies the dictionary encoding method for the string variables. On the other hand, the content in LogCluster uses clustering methods such as HDBSCAN or DBSCAN to discover samples for parsing. Then the dictionary encoder is used for any strings, including templates, and LogCluster applies the arrect-delta encoding method for the numerical variables, the same as the header does. In the end, LogCluster zips the data with LZMA.
+Given raw log messages, LogCluster separates them into headers, including timestamps and string variables, and content. LogCluster, in particular headers, uses the arrect-delta encoding method for the numerical variables, including timestamps, and applies the dictionary encoding method for the string variables. On the other hand, the content in LogCluster uses clustering methods such as HDBSCAN or DBSCAN to discover samples for parsing. Then, the dictionary encoder is used for any strings, including templates, and LogCluster applies the arrect-delta encoding method for the numerical variables, the same as the header does. In the end, LogCluster zips the data with LZMA.
 
 ## 5. Results: HDBSCAN
 
@@ -108,11 +103,6 @@ LogCluster can compress all 66 GB log datasets into 1.15 GB in total, which take
 For example, on the largest dataset (i.e., Thunderbird), LogCluster can compress to 0.50 GB from the original size of 31.8 GB, which saves 98.44% of storage space. 
 In terms of CR, LogCluster exceeds the most powerful log compression method (i.e., LogReducer) by achieving 1.01× (Spark) to 2.33× (Hadoop) compression rates compared to LogReducder on 14 out of 16 datasets.
 
-[//]: # (Comparing compression rates with 4 models with the benchmark models.  )
-
-[//]: # (LogCluster compresses all generated files.  )
-
-[//]: # (LogReducer results are included all generated files such as templates and correlations files, and they are compressed.  )
 **Baselines:**
 [Gzip](http://www.gzip.org/), [7z (LZMA)](https://www.7-zip.org/sdk.html), [Logzip](https://arxiv.org/abs/1910.00409), [LogReducer](https://www.usenix.org/conference/fast21/presentation/wei).
 
@@ -156,9 +146,9 @@ We assume that the true average of the compression rates of datasets are no diff
 Null Hypothesis H0: mu1 - mu2 = 0  
 Alternative Hypothesis HA: mu1- mu2 != 0  
 
-Where mu1 = datasets' mean compression rate with LogCluster and mu2 = datasets' mean comoression rate with LogRedcuer.
+Where mu1 = datasets' mean compression rate with LogCluster and mu2 = datasets' mean compression rate with LogRedcuer.
 
-We reject the null hypothesis because the two tail p-value is smaller than the level of significance (alpha = 0.05).  
+We reject the null hypothesis because the two-tailed p-value is smaller than the level of significance (alpha = 0.05).  
 Statistically, the compression rate of LogCluster and the compression rate of LogRedcuer populations are significantly different with datasets.
 <p align="center">
 <img src="./src/stability.png" alt="LogCluster Stability" title="LogCluster Stability">
@@ -206,6 +196,6 @@ the best with HDBSCAN on almost all datasets.
 | Mean          | 99.06%    | 99.78%           |
 
 We measured lossless for each compressed dataset by LogCluster (HDBSCAN).  
-If the decompressed line does not match the original sentence, we calculated the ratio with SequenceMatcher.  
+If the decompressed line did not match the original sentence, we calculated the ratio with SequenceMatcher.  
 Otherwise, the ratio is 1. Then, we divided the sum of the ratio by the total number of original lines.  
-LogCluster guarantees to provide high lossless when the datasets are well organized, such as SSH. On the other hand, if the datasets contain an empty line or tab space, such as Hadoop, LogCluster drops the lossless rate.
+LogCluster guarantees to provide high lossless when the datasets are well-organized, such as SSH. On the other hand, if the datasets contain an empty line or tab space, such as Hadoop, LogCluster drops the lossless rate.
