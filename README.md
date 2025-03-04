@@ -96,7 +96,7 @@ Given raw log messages, LogCluster separates them into headers, including timest
 
 ### Compression Rates (with HDBSCAN)
 <p align="center">
-<img src="./src/result1.png" alt="Compression Rates" title="LogCluster Comparison">
+<img src="src/compression_result.png" alt="Compression Rates" title="LogCluster Comparison">
 </p>
 
 LogCluster can compress all 66 GB log datasets into 1.15 GB in total, which takes only 1.76% space after compression. 
@@ -154,25 +154,43 @@ Statistically, the compression rate of LogCluster and the compression rate of Lo
 <img src="./src/stability.png" alt="LogCluster Stability" title="LogCluster Stability">
 </p>
 
-### Ablation Study
-<p align="center">
-<img src="src/encoder_comp.png">
-</p>
-LogCluster achieves the best performance using both clustering and delta encoding. When these two parts are missing, the performance of the model drops significantly, especially when the arrect-delta encoder is missing. 
-For example, on the Zookeeper dataset, the compression rate decreases by 13.79% and 32.09% when clustering and delta encoding are removed, respectively. 
-Thus, the results demonstrate the usefulness of the proposed clustering-based sampling algorithm and
-the arrect-delta encoding module of LogCluster.
+[//]: # (### Ablation Study)
+
+[//]: # (<p align="center">)
+
+[//]: # (<img src="src/encoder_comp.png">)
+
+[//]: # (</p>)
+
+[//]: # (LogCluster achieves the best performance using both clustering and delta encoding. When these two parts are missing, the performance of the model drops significantly, especially when the arrect-delta encoder is missing. )
+
+[//]: # (For example, on the Zookeeper dataset, the compression rate decreases by 13.79% and 32.09% when clustering and delta encoding are removed, respectively. )
+
+[//]: # (Thus, the results demonstrate the usefulness of the proposed clustering-based sampling algorithm and)
+
+[//]: # (the arrect-delta encoding module of LogCluster.)
 
 ### Different Settings
 
 #### Different Clustering
 <p align="center">
-<img src="src/cluster_comp.png">
+<img src="src/cluster_result.png">
 </p>
 LogCluster can achieve relatively high results with different clustering methods. For example, the compression rates achieved by DBSCAN and Mean Shift are comparable with HDBSCAN on some datasets. It indicates that these clustering methods can select optimized sets of log messages for log parsing. Still, LogCluster performs
 the best with HDBSCAN on almost all datasets.
 
 [DBSCAN](https://scikit-learn.org/stable/modules/generated/sklearn.cluster.DBSCAN.html), [Mean Shift](https://www.geeksforgeeks.org/ml-mean-shift-clustering/), [Affinity Propagation](https://en.wikipedia.org/wiki/Affinity_propagation)
+
+#### 2.Different Log Parser
+<p align="center">
+<img src="./src/parser_result.png">
+</p>
+LogCC vary when different log parsers are used. Some log parsers cannot work on a few datasets due to the time-consuming matching process. 
+For example, Spell and SHISO cannot finish compression within 30 hours on four and six datasets, respectively. 
+The experimental results confirm that LogCC performs best with Drain. 
+It achieves 1.07× to 7.33× compression rates with Drain compared to other log parsers (i.e., Spell, AEL, and SHISO).
+
+[Spell](https://www.cs.utah.edu/~lifeifei/papers/spell.pdf), [AEL](http://www.cse.yorku.ca/~zmjiang/publications/jsme2008.pdf), [SHISO](https://ieeexplore.ieee.org/document/6649746)
 
 ### Lossless (HDBSCAN)
 
