@@ -181,17 +181,6 @@ the best with HDBSCAN on almost all datasets.
 
 [DBSCAN](https://scikit-learn.org/stable/modules/generated/sklearn.cluster.DBSCAN.html), [Mean Shift](https://www.geeksforgeeks.org/ml-mean-shift-clustering/), [Affinity Propagation](https://en.wikipedia.org/wiki/Affinity_propagation)
 
-#### 2.Different Log Parser
-<p align="center">
-<img src="./src/parser_result.png">
-</p>
-LogCluster vary when different log parsers are used. Some log parsers cannot work on a few datasets due to the time-consuming matching process. 
-For example, Spell and SHISO cannot finish compression within 30 hours on four and six datasets, respectively. 
-The experimental results confirm that LogCluster performs best. 
-It achieves 1.07× to 7.33× compression rates compared to other log parsers (i.e., Spell, AEL, and SHISO).
-
-[Spell](https://www.cs.utah.edu/~lifeifei/papers/spell.pdf), [AEL](http://www.cse.yorku.ca/~zmjiang/publications/jsme2008.pdf), [SHISO](https://ieeexplore.ieee.org/document/6649746)
-
 ### Lossless (HDBSCAN)
 
 | Dataset       | LogCluster     | LogReducer    |
